@@ -30,7 +30,7 @@ NUM_IMGS = 705
 
 # Parameters
 LEARNING_RATE = 0.001
-NUM_STEPS = 1000
+NUM_STEPS = 1500
 BATCH_S = 141
 DISPLAY_STEP = 100
 
@@ -124,35 +124,35 @@ def cnn(x, reuse, is_training):
     with tf.variable_scope('ConvNet',reuse=reuse):
 
         # Convolution Layer #1
-        conv1 = tf.layers.conv2d(inputs=x, filters=32, kernel_size=[4,4],
+        conv1 = tf.layers.conv2d(inputs=x, filters=64, kernel_size=[2,2],
                                  padding="SAME", activation=tf.nn.relu)
 
         # Pooling Layer #1
-        pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[4,4], 
+        pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2,2], 
                                         padding="SAME", strides=2)
         
         dropout1 = tf.layers.dropout(inputs=pool1,
                                          rate=0.7, training=is_training)
         # Convolution Layer #2
-        conv2 = tf.layers.conv2d(inputs=dropout1, filters=64, kernel_size=[4,4], 
+        conv2 = tf.layers.conv2d(inputs=dropout1, filters=128, kernel_size=[3,3], 
                                  padding="SAME", strides = 2, activation=tf.nn.relu)
 
         # Pooling Layer #2
-        pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[4,4],
+        pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[3,3],
                                         padding="SAME", strides= 2)
         dropout2 = tf.layers.dropout(inputs=pool2,
                                          rate=0.7, training=is_training)
         
         # Convolution Layer #3
-        conv3 = tf.layers.conv2d(inputs=dropout2, filters=128, kernel_size=[4,4], 
+        conv3 = tf.layers.conv2d(inputs=dropout2, filters=256, kernel_size=[2,2], 
                                  padding="SAME", strides = 2, activation=tf.nn.relu)
 
         # Pooling Layer #3
-        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[4,4],
+        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=[2,2],
                                         padding="SAME", strides= 2)
         dropout3 = tf.layers.dropout(inputs=pool3,
                                          rate=0.7, training=is_training)
-         
+        
         # Fully connected layer
         fc1 = tf.contrib.layers.flatten(dropout3)
         fc1 = tf.layers.dense(fc1, 256)

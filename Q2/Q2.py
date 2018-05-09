@@ -186,10 +186,10 @@ def main():
         correct_pred = tf.equal(tf.argmax(logits_test, 1), tf.cast(Y_test,tf.int64 ))
         accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
         
-        # Initialize the variables (i.e. assign their default value)
-        init = tf.global_variables_initializer()
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
+    # Initialize the variables (i.e. assign their default value)
+    init = tf.global_variables_initializer()
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     # Start training
     with tf.Session(config=config) as sess:
         # Run the initializer

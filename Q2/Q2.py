@@ -166,25 +166,24 @@ def cnn(x, reuse, is_training):
     return out
 
 def main():
-    # Separate training data set and test data set
-    with tf.device('/device:GPU:2'):
-        seperate_dataset()
-        X_train, Y_train = read_images("training/man/","training/woman/", 141, 8)
-        X_test, Y_test = read_images("test/man/", "test/woman/",47 , 6 )
+    # Separate training data set and test data set  
+    seperate_dataset()
+    X_train, Y_train = read_images("training/man/","training/woman/", 141, 8)
+    X_test, Y_test = read_images("test/man/", "test/woman/",47 , 6 )
         
-        # Create a graph for training
-        logits_train = cnn(X_train, False, True)
+    # Create a graph for training
+    logits_train = cnn(X_train, False, True)
         
-        # Define loss and optimizer (with train logits, for dropout to take effect)
-        cost = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_train, labels=Y_train))
-        train = tf.train.AdamOptimizer(learning_rate=LEARNING_RATE).minimize(cost)
+    # Define loss and optimizer (with train logits, for dropout to take effect)
+    cost = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_train, labels=Y_train))
+    train = tf.train.AdamOptimizer(learning_rate=LEARNING_RATE).minimize(cost)
     
-        # Create another graph for testing that reuse the same weights
-        logits_test = cnn(X_test, True, False)
+    # Create another graph for testing that reuse the same weights
+    logits_test = cnn(X_test, True, False)
         
-        # Evaluate model (with test logits, for dropout to be disabled)
-        correct_pred = tf.equal(tf.argmax(logits_test, 1), tf.cast(Y_test,tf.int64 ))
-        accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+    # Evaluate model (with test logits, for dropout to be disabled)
+    correct_pred = tf.equal(tf.argmax(logits_test, 1), tf.cast(Y_test,tf.int64 ))
+    accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
         
     # Initialize the variables (i.e. assign their default value)
     init = tf.global_variables_initializer()

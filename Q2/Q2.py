@@ -187,10 +187,8 @@ def main():
         
     # Initialize the variables (i.e. assign their default value)
     init = tf.global_variables_initializer()
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
     # Start training
-    with tf.Session(config=config) as sess:
+    with tf.Session(config=tf.ConfigProto(log_device_placement=True)) as sess:
         # Run the initializer
         sess.run(init)
     
